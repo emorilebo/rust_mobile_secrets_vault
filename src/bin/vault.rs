@@ -1,10 +1,10 @@
 use anyhow::{Context, Result};
+use base64::{engine::general_purpose, Engine as _};
 use clap::Parser;
 use rand::{rngs::OsRng, RngCore};
 use rust_mobile_secrets_vault::cli::{Cli, Commands};
 use rust_mobile_secrets_vault::{KeySource, SecretVault};
 use std::fs;
-use std::path::PathBuf;
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
@@ -13,7 +13,7 @@ fn main() -> Result<()> {
         Commands::Init { key_out } => {
             let mut key = [0u8; 32];
             OsRng.fill_bytes(&mut key);
-            let key_base64 = base64::encode(key);
+            let key_base64 = general_purpose::STANDARD.encode(key);
 
             if let Some(path) = key_out {
                 fs::write(&path, &key_base64).context("Failed to write master key file")?;
@@ -64,7 +64,7 @@ fn main() -> Result<()> {
                 } => {
                     let mut new_key = [0u8; 32];
                     OsRng.fill_bytes(&mut new_key);
-                    let new_key_base64 = base64::encode(new_key);
+                    let new_key_base64 = general_purpose::STANDARD.encode(new_key);
 
                     if let Some(path) = new_key_out {
                         fs::write(&path, &new_key_base64)
