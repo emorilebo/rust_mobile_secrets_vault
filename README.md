@@ -17,7 +17,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rust_mobile_secrets_vault = "0.1.0"
+rust_mobile_secrets_vault = "0.2.0"
 ```
 
 ## Quick Start
@@ -205,10 +205,27 @@ MIT OR Apache-2.0
 
 ## Changelog
 
+### 0.2.0 (Latest)
+- **New Features:**
+  - Custom error types (`VaultError`) for better type safety
+  - Builder pattern API for flexible vault configuration
+  - `get_version()` method to retrieve specific secret versions
+  - `list_keys()` method to list all secrets in vault
+  - Input validation for secret keys
+- **Improvements:**
+  - Enhanced documentation with examples
+  - Better error messages
+  - Improved CLI output with visual feedback
+  - Comprehensive examples in `examples/` directory
+- **Documentation:**
+  - Complete README rewrite with security best practices
+  - Added troubleshooting guide
+  - CLI reference table
+  - Performance notes
+
 ### 0.1.0 (Initial Release)
 - AES-256-GCM encryption
 - Secret versioning
 - Key rotation
 - Audit logging
 - CLI tool
-- Builder pattern API

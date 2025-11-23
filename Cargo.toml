@@ -1,6 +1,6 @@
 [package]
 name = "rust_mobile_secrets_vault"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "A secure, encrypted secrets vault for mobile-backend or embedded Rust services with versioning and key rotation"
 license = "MIT OR Apache-2.0"
