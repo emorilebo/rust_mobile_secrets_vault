@@ -34,18 +34,11 @@ pub enum Commands {
         key_out: Option<PathBuf>,
     },
     /// Set a secret
-    Set {
-        key: String,
-        value: String,
-    },
+    Set { key: String, value: String },
     /// Get a secret
-    Get {
-        key: String,
-    },
+    Get { key: String },
     /// Delete a secret
-    Delete {
-        key: String,
-    },
+    Delete { key: String },
     /// Rotate the master key
     Rotate {
         /// Path to the new master key file (optional, otherwise generates new)
@@ -56,7 +49,5 @@ pub enum Commands {
         new_key_out: Option<PathBuf>,
     },
     /// List versions of a secret
-    ListVersions {
-        key: String,
-    },
+    ListVersions { key: String },
 }

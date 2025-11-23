@@ -1,8 +1,10 @@
 pub mod audit;
-pub mod encryption;
-pub mod vault;
 pub mod cli;
+pub mod encryption;
+pub mod error;
+pub mod vault;
 
 pub use audit::{AuditLogger, Operation};
-pub use encryption::{encrypt, decrypt};
-pub use vault::{KeySource, SecretVault, MasterKey};
+pub use encryption::{decrypt, encrypt};
+pub use error::{Result, VaultError};
+pub use vault::{KeySource, MasterKey, SecretVault};

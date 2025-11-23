@@ -1,11 +1,11 @@
+use crate::error::Result;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::fs::OpenOptions;
 use std::io::Write;
 use std::path::Path;
-use anyhow::Result;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum Operation {
     Set,
     Get,
@@ -25,12 +25,24 @@ pub struct AuditLogger {
 }
 
 impl AuditLogger {
+    /// Creates a new audit logger.
+    ///
+    /// # Arguments
+    /// * `log_path` - Optional path to the audit log file. If None, logging is disabled.
     pub fn new(log_path: Option<&Path>) -> Self {
         Self {
             log_path: log_path.map(|p| p.to_path_buf()),
         }
     }
 
+    /// Logs an operation to the audit log.
+    ///
+    /// # Arguments
+    /// * `operation` - The type of operation performed
+    /// * `key` - The secret key affected by the operation
+    ///
+    /// # Errors
+    /// Returns an error if writing to the log file fails.
     pub fn log(&self, operation: Operation, key: &str) -> Result<()> {
         let entry = AuditEntry {
             timestamp: Utc::now(),
@@ -40,10 +52,7 @@ impl AuditLogger {
 
         if let Some(path) = &self.log_path {
             let log_line = serde_json::to_string(&entry)?;
-            let mut file = OpenOptions::new()
-                .create(true)
-                .append(true)
-                .open(path)?;
+            let mut file = OpenOptions::new().create(true).append(true).open(path)?;
             writeln!(file, "{}", log_line)?;
         }
 
