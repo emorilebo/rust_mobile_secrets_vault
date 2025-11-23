@@ -1,6 +1,7 @@
 use crate::audit::{AuditLogger, Operation};
 use crate::encryption::{decrypt, encrypt, KEY_SIZE};
 use anyhow::{Context, Result};
+use base64::{engine::general_purpose, Engine as _};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs::{self, File};
@@ -56,12 +57,16 @@ impl KeySource {
             KeySource::Env(var_name) => {
                 let val = std::env::var(&var_name)
                     .context(format!("Environment variable {} not found", var_name))?;
-                base64::decode(val).context("Failed to decode base64 key from env")?
+                general_purpose::STANDARD
+                    .decode(val)
+                    .context("Failed to decode base64 key from env")?
             }
             KeySource::File(path) => {
                 let content = fs::read_to_string(&path)
                     .context(format!("Failed to read key file {:?}", path))?;
-                base64::decode(content.trim()).context("Failed to decode base64 key from file")?
+                general_purpose::STANDARD
+                    .decode(content.trim())
+                    .context("Failed to decode base64 key from file")?
             }
             KeySource::Bytes(bytes) => bytes,
         };

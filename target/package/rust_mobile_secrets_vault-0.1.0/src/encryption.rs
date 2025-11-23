@@ -1,8 +1,8 @@
 use aes_gcm::{
-    aead::{Aead, KeyInit, Payload},
+    aead::{Aead, KeyInit},
     Aes256Gcm, Key, Nonce,
 };
-use anyhow::{Context, Result};
+use anyhow::Result;
 use rand::{rngs::OsRng, RngCore};
 
 pub const KEY_SIZE: usize = 32;

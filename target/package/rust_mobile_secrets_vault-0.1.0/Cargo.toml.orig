@@ -9,6 +9,7 @@ repository = "https://github.com/yourusername/rust_mobile_secrets_vault"
 readme = "README.md"
 keywords = ["secrets", "vault", "encryption", "mobile", "security"]
 categories = ["cryptography", "command-line-utilities"]
+exclude = ["target", ".github", "tests", ".gitignore"]
 
 [dependencies]
 aes-gcm = "0.10"
